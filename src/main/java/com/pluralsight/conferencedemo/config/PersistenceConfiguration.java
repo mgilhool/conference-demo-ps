@@ -32,7 +32,10 @@ public class PersistenceConfiguration {
     @Bean
     public DataSource dataSource(){
         DataSourceBuilder dsBuilder = DataSourceBuilder.create();
-        dsBuilder.url(dbUrl).username(dbUsername).password(dbPassword);
+        dsBuilder.url(dbUrl);
+        //set the username and password IF env variables for them are set, otherwise, leave at the defaults.
+        if (dbUsername != null) dsBuilder.username(dbUsername);
+        if (dbPassword != null) dsBuilder.password(dbPassword);
         System.out.println("My custom datasource bean has been initialized and set");
         return dsBuilder.build();
     }
