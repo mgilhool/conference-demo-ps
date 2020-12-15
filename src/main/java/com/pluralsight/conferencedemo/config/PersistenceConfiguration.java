@@ -15,17 +15,24 @@ public class PersistenceConfiguration {
 
     //Pulling the username and password from the property file, which points to an env variable
     //This way it is set, but not in the source code or files.
+    //If the raw values are ever needed, here they are for reference. They need to be added as env variables to work (ex. export DB_USER=postgres):
+    //DB_URL=jdbc:postgresql://localhost:5432/conference_app
+    //DB_USER=postgres
+    //DB_PASSWORD=Welcome
     @Value("${spring.datasource.username}")
     private String dbUsername;
 
-    @Value("${spring.datasource.password}")
+    @Value("${DB_PASSWORD}")
     private String dbPassword;
+
+    @Value("${DB_URL}")
+    private String dbUrl;
 
     //Why @Bean - is this so Spring can manage it ?
     @Bean
     public DataSource dataSource(){
         DataSourceBuilder dsBuilder = DataSourceBuilder.create();
-        dsBuilder.url("jdbc:postgresql://localhost:5432/conference_app").username(dbUsername).password(dbPassword);
+        dsBuilder.url(dbUrl).username(dbUsername).password(dbPassword);
         System.out.println("My custom datasource bean has been initialized and set");
         return dsBuilder.build();
     }
