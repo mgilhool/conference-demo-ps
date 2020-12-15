@@ -1,0 +1,37 @@
+#*Can* Mix .properties and .yml config files, but best to stick to one.  This is just as an exercise.
+
+
+#Output the queries to the loggers - doing this instead of #spring.jpa.hibernate.show-sql = true
+#Two write these two as yml props do:
+#logging.level.org.hibernate.SQL=DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#Dev Level config - Log everything
+logging.level.*: INFO
+
+#or  (indents are IMPORTANT)
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+#Or (this is probably too long)
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:descriptor.sql.BasicBinder: TRACE
+
+#Or (this is just silly)
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
