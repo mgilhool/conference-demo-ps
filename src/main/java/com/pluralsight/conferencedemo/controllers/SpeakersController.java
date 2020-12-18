@@ -32,6 +32,7 @@ public class SpeakersController {
     }
 
     @DeleteMapping(value = "{id}")
+    //This will fail for any speakers that have entries on the session_speakers table because of foreign key constraints.   See the delete method in SessionsController for an example of how to handle that. 
     public void delete(@PathVariable Long id){
         speakerRepository.deleteById(id);
     }

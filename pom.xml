@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>conference-demo</name>
 	<description>Demo project for Spring Boot</description>
+	<!-- For option C (external tomcat) choose "war", other wise choose jar -->
 	<packaging>war</packaging>
 
 	<properties>
@@ -20,6 +21,42 @@
 	</properties>
 
 	<dependencies>
+		<!-- Here are three versions of the dependencies for three scenarios:
+		A. Using the defaults
+		B. Using Jetty instead of Tomcat for the embedded container
+		C. Outputting a WAR file for use on an external Tomcat container.
+		Look for comments with A, B, C to show what you need.
+		Going for C since this branch is the warversion.
+		-->
+
+		<!-- Use IntelliJ CMD+/ to comment/uncomment out -->
+
+		<!-- A. Using the defaults -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--		</dependency>-->
+<!--		-->
+
+<!--		&lt;!&ndash; B. Using Jetty instead of Tomcat for the embedded container &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--			<exclusions>-->
+<!--				&lt;!&ndash; Exclude Tomcat dependency so that it's not used as a container&ndash;&gt;-->
+<!--				<exclusion>-->
+<!--					<groupId>org.springframework.boot</groupId>-->
+<!--					<artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			&lt;!&ndash; works with exclusion above, Tomcat is excluded and jetty is included, so Spring will use Jetty as the server container &ndash;&gt;-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-jetty</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- C. Outputting a WAR file for use on an external Tomcat container. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -30,6 +67,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
