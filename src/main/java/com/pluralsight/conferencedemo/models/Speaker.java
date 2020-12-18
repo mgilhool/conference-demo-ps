@@ -5,58 +5,66 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "speakers")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Speaker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long speaker_id;
+    @Column(name="speaker_id")
+    private Long speakerId;
 
-    private String first_name;
-    private String last_name;
+    @Column(name="first_name")
+    private String firstName;
+    @Column(name="last_name")
+    private String lastName;
+    @Column(name="title")
     private String title;
+    @Column(name="company")
     private String company;
-    private String speaker_bio;
+    @Column(name="speaker_bio")
+    private String speakerBio;
 
     @Lob
     @Type(type="org.hibernate.type.BinaryType")
-    private byte[] speaker_photo;
+    @Column(name="speaker_photo")
+    private byte[] speakerPhoto;
 
+    //other side (not owning side) of relationship
     @ManyToMany(mappedBy = "speakers")
     @JsonIgnore
     //added to prevent "back-serialization" recursion between speaker and session going deeper and deeper on the join
     //prior to this addition got error like: nested exception is com.fasterxml.jackson.databind.JsonMappingException: Infinite recursion (StackOverflowError) (through reference chain: org.hibernate.collection.internal.PersistentBag[0]
     // Can also address this with DTOs (somehow - not sure) but adding to the non-dominant side of the join also works.
-    private List<Session> sessions;
+    private Set<Session> sessions;
 
     public Speaker() {
         //Explicit default constructor
     }
 
-    public Long getSpeaker_id() {
-        return speaker_id;
+    public Long getSpeakerId() {
+        return speakerId;
     }
 
-    public void setSpeaker_id(Long speaker_id) {
-        this.speaker_id = speaker_id;
+    public void setSpeakerId(Long speaker_id) {
+        this.speakerId = speaker_id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
     }
 
     public String getTitle() {
@@ -75,27 +83,27 @@ public class Speaker {
         this.company = company;
     }
 
-    public String getSpeaker_bio() {
-        return speaker_bio;
+    public String getSpeakerBio() {
+        return speakerBio;
     }
 
-    public void setSpeaker_bio(String speaker_bio) {
-        this.speaker_bio = speaker_bio;
+    public void setSpeakerBio(String speaker_bio) {
+        this.speakerBio = speaker_bio;
     }
 
-    public byte[] getSpeaker_photo() {
-        return speaker_photo;
+    public byte[] getSpeakerPhoto() {
+        return speakerPhoto;
     }
 
-    public void setSpeaker_photo(byte[] speaker_photo) {
-        this.speaker_photo = speaker_photo;
+    public void setSpeakerPhoto(byte[] speaker_photo) {
+        this.speakerPhoto = speaker_photo;
     }
 
-    public List<Session> getSessions() {
+    public Set<Session> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<Session> sessions) {
+    public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
     }
 }
