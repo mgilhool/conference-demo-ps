@@ -14,7 +14,7 @@
 	<name>conference-demo</name>
 	<description>Demo project for Spring Boot</description>
 	<!-- For option C (external tomcat) choose "war", other wise choose jar -->
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>11</java.version>
@@ -38,35 +38,35 @@
 <!--		</dependency>-->
 <!--		-->
 
-<!--		&lt;!&ndash; B. Using Jetty instead of Tomcat for the embedded container &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-web</artifactId>-->
-<!--			<exclusions>-->
-<!--				&lt;!&ndash; Exclude Tomcat dependency so that it's not used as a container&ndash;&gt;-->
-<!--				<exclusion>-->
-<!--					<groupId>org.springframework.boot</groupId>-->
-<!--					<artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			&lt;!&ndash; works with exclusion above, Tomcat is excluded and jetty is included, so Spring will use Jetty as the server container &ndash;&gt;-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-jetty</artifactId>-->
-<!--		</dependency>-->
-
-		<!-- C. Outputting a WAR file for use on an external Tomcat container. -->
+		<!-- B. Using Jetty instead of Tomcat for the embedded container -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!-- Exclude Tomcat dependency so that it's not used as a container-->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<!-- This version means that tomcat will not be embedded, but rather tomcat will already be provided by a stand-alone tomcat installation -->
+			<!-- works with exclusion above, Tomcat is excluded and jetty is included, so Spring will use Jetty as the server container -->
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
+
+		<!-- C. Outputting a WAR file for use on an external Tomcat container. -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			&lt;!&ndash; This version means that tomcat will not be embedded, but rather tomcat will already be provided by a stand-alone tomcat installation &ndash;&gt;-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

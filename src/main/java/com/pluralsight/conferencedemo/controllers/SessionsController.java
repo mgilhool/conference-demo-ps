@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -96,16 +93,21 @@ public class SessionsController {
         //If the session id does not exist in the first place return a 422 unprocessible Entity
         if (existingSession.isEmpty()) return ResponseEntity.unprocessableEntity().build();
         Session actualExistingSession = existingSession.get();
-        BeanUtils.copyProperties(session, actualExistingSession, "sessionId"); //copy all of the attributes of the passed in Session to the existing session, ignoring the session_id of the passed in session since that will be null when passed in
-        //Use reflection to see if existingSession has any null properties after the copy properties operation.  If it does, then reject the payload and return a 400
-        if (areAnyPropertiesNull(actualExistingSession, List.of("sessionId"))) return ResponseEntity.status(400).body(null);
-        else return ResponseEntity.ok().body(sessionRepository.saveAndFlush(actualExistingSession));
+
+        //Use reflection to see if incoming session has any null properties (other than the ones we expect).  If it does, then reject the payload and return a 400
+        if (areAnyPropertiesNull(session, List.of("sessionId", "speakers"))) return ResponseEntity.status(400).body(null);
+        else{
+            //copy all of the attributes of the passed in Session to the existing session, ignoring the session_id of the passed in session since that will be null when passed in
+            BeanUtils.copyProperties(session, actualExistingSession, "sessionId");
+            //save the update and return the response
+            return ResponseEntity.ok().body(sessionRepository.saveAndFlush(actualExistingSession));
+        }
 
     }
 
     private boolean areAnyPropertiesNull(Object obj, List<String> ignoreFieldList)
     {
-        //strip out fields we are going to ignore. In the specific case of Session - sessionId will always be null (since JPA is managing the id ??? IDK) so ignore that
+        //strip out fields we are going to ignore.  For example, in the case of Session sessionId won't be in the payload, and for now, let's ignore updating the speakers associated with the session
         Field[] declaredFields = obj.getClass().getDeclaredFields();
         List<Field> declaredFieldsWithoutIgnored = Arrays.stream(declaredFields).filter(field -> !ignoreFieldList.contains(field.getName())).collect(Collectors.toList());
 
